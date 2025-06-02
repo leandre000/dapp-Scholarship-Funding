@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decentralized Scholarship Funding</title>
+    <!-- Load Web3.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+    <!-- Load our custom web3.js file -->
+    <script src="./web3.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background-color: #1e90ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #1c86ee;
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .section {
+            margin: 20px 0;
+        }
+        .section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #metaMaskError {
+            color: red;
+            margin: 10px 0;
+            display: none;
+        }
+        #connectionStatus {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .connected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Decentralized Scholarship Funding</h1>
+    <div id="metaMaskError">Please install MetaMask to use this application</div>
+    <div id="connectionStatus" class="disconnected">Not connected to MetaMask</div>
+    <p id="account"></p>
+    <button onclick="connectWallet()">Connect Wallet</button>
+    <div class="section">
+        <h2>Donate ETH</h2>
+        <input type="text" id="donationAmount" placeholder="Amount in ETH">
+        <button onclick="donate()">Donate</button>
+    </div>
+    <div class="section">
+        <h2>Apply for Scholarship</h2>
+        <button onclick="applyForScholarship()">Apply</button>
+    </div>
+    <div class="section">
+        <h2>Release Funds (Admin Only)</h2>
+        <input type="text" id="recipientAddress" placeholder="Recipient Address">
+        <input type="text" id="releaseAmount" placeholder="Amount in ETH">
+        <button onclick="releaseFunds()">Release</button>
+    </div>
+
+    <script>
+        // Check if MetaMask is installed
+        window.addEventListener('load', function() {
+            if (typeof window.ethereum === 'undefined') {
+                document.getElementById('metaMaskError').style.display = 'block';
+                document.querySelectorAll('button').forEach(button => {
+                    button.disabled = true;
+                });
+            }
+        });
+
+        // Update connection status
+        function updateConnectionStatus(connected, account) {
+            const statusDiv = document.getElementById('connectionStatus');
+            if (connected) {
+                statusDiv.className = 'connected';
+                statusDiv.textContent = `Connected: ${account}`;
+            } else {
+                statusDiv.className = 'disconnected';
+                statusDiv.textContent = 'Not connected to MetaMask';
+            }
+        }
+    </script>
+</body>
+</html>
